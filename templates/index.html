@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APP</title>
+  
+</head>
+<body>
+  <h1>APP</h1>
+  <div id="player1">player1: 0</div>
+  <div id="player2">player2: 0</div>
+  
+  <script>
+    var eventSource = new EventSource("/listen")
+    var player1 = 0
+    var player2 = 0
+    
+    eventSource.addEventListener("message", function(e) {
+      console.log(e.data)
+    }, false)
+
+    eventSource.addEventListener("error", function(e) {
+      console.log(e.data)
+    }, false)
+
+    eventSource.addEventListener("online", function(e) {
+      // console.log(e.data.color)
+      data = JSON.parse(e.data)
+      console.log(e.data)
+      console.log(data)
+      console.log(data.player)
+
+      if(data.player == 1){
+        player1 = player1 + data.sorce
+      }else{
+        player2 = player2 + data.sorce
+      }
+
+    
+      document.querySelector("#player1").innerText = "player1: "+player1
+      document.querySelector("#player2").innerText = "player2: "+player2
+    }, true)
+
+  </script>
+
+</body>
+</html>
